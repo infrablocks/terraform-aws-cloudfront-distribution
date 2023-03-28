@@ -1,0 +1,7 @@
+---
+region: 'eu-west-2'
+
+component: 'test'
+deployment_identifier: "%{hiera('seed')}"
+
+domain_name: "infrablocks-cloudfront.example"
