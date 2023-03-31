@@ -97,7 +97,7 @@ namespace :keys do
       name_prefix: 'gpg',
       owner_name: 'InfraBlocks Maintainers',
       owner_email: 'maintainers@infrablocks.io',
-      owner_comment: 'terraform-aws-cloudfront CI Key'
+      owner_comment: 'terraform-aws-cloudfront-distribution CI Key'
     )
   end
 end
@@ -134,7 +134,7 @@ end
 
 RakeCircleCI.define_project_tasks(
   namespace: :circle_ci,
-  project_slug: 'github/infrablocks/terraform-aws-cloudfront'
+  project_slug: 'github/infrablocks/terraform-aws-cloudfront-distribution'
 ) do |t|
   circle_ci_config =
     YAML.load_file('config/secrets/circle_ci/config.yaml')
@@ -160,7 +160,7 @@ end
 
 RakeGithub.define_repository_tasks(
   namespace: :github,
-  repository: 'infrablocks/terraform-aws-cloudfront'
+  repository: 'infrablocks/terraform-aws-cloudfront-distribution'
 ) do |t, args|
   github_config =
     YAML.load_file('config/secrets/github/config.yaml')
