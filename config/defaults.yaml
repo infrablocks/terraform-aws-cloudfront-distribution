@@ -4,4 +4,7 @@ region: 'eu-west-2'
 component: 'test'
 deployment_identifier: "%{hiera('seed')}"
 
-domain_name: "infrablocks-cloudfront.example"
+domain_name: 'infrablocks.click'
+public_zone_id: "Z08829023L5IPIQBJOX63"
+private_zone_id: 'Z0211739BXR21FNN139O'
+

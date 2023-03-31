@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require 'spec_helper'
-require 'netaddr'
 
 describe 'full example' do
   let(:component) do
@@ -9,6 +8,9 @@ describe 'full example' do
   end
   let(:dep_id) do
     var(role: :full, name: 'deployment_identifier')
+  end
+  let(:distribution_id) do
+    output(role: :full, name: 'distribution_id')
   end
 
   before(:context) do
@@ -20,5 +22,9 @@ describe 'full example' do
       role: :full,
       only_if: -> { !ENV['FORCE_DESTROY'].nil? || ENV['SEED'].nil? }
     )
+  end
+
+  it 'creates a cloudfront distribution' do
+    expect(cloudfront_distribution(distribution_id)).to(exist)
   end
 end

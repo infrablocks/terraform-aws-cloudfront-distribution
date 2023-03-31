@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-describe 'IGW' do
+describe 'distribution' do
   let(:component) do
     var(role: :root, name: 'component')
   end
@@ -13,49 +13,27 @@ describe 'IGW' do
   describe 'by default' do
     before(:context) do
       @plan = plan(role: :root) do |vars|
-        vars.private_zone_id =
-          output(role: :prerequisites, name: 'private_zone_id')
+        vars.distribution_origins = [
+          {
+            id: 'origin',
+            type: 's3',
+            bucket_name_prefix: 'website-content'
+          }
+        ]
+        vars.distribution_default_cache_behavior = {
+          target_origin_id: 'origin'
+        }
+        vars.distribution_viewer_certificate = {
+          acm_certificate_arn:
+            output(role: :prerequisites, name: 'certificate_arn')
+        }
       end
     end
 
-    it 'creates an internet gateway' do
+    it 'creates a distribution' do
       expect(@plan)
-        .to(include_resource_creation(type: 'aws_internet_gateway')
+        .to(include_resource_creation(type: 'aws_cloudfront_distribution')
               .once)
-    end
-
-    it 'includes a Name tag' do
-      expect(@plan)
-        .to(include_resource_creation(type: 'aws_internet_gateway')
-              .with_attribute_value(
-                :tags,
-                a_hash_including(
-                  Name: "igw-#{component}-#{deployment_identifier}"
-                )
-              ))
-    end
-
-    it 'includes Component and DeploymentIdentifier tags' do
-      expect(@plan)
-        .to(include_resource_creation(type: 'aws_internet_gateway')
-              .with_attribute_value(
-                :tags,
-                a_hash_including(
-                  Component: component,
-                  DeploymentIdentifier: deployment_identifier
-                )
-              ))
-    end
-
-    it 'includes a Tier tag' do
-      expect(@plan)
-        .to(include_resource_creation(type: 'aws_internet_gateway')
-              .with_attribute_value(
-                :tags,
-                a_hash_including(
-                  Tier: 'public'
-                )
-              ))
     end
   end
 end
