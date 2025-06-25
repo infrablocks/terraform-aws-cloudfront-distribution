@@ -14,6 +14,10 @@ output "distribution_hosted_zone_id" {
   value = module.distribution.distribution_hosted_zone_id
 }
 
+output "origin_bucket_names" {
+  value = module.distribution.origin_bucket_names
+}
+
 output "origin_bucket_access_identity_ids" {
   value = module.distribution.origin_bucket_access_identity_ids
 }
