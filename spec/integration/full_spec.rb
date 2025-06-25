@@ -12,6 +12,9 @@ describe 'full example' do
   let(:distribution_id) do
     output(role: :full, name: 'distribution_id')
   end
+  let(:output_origin_bucket_names) do
+    output(role: :full, name: 'origin_bucket_names')
+  end
 
   before(:context) do
     apply(role: :full)
@@ -24,7 +27,18 @@ describe 'full example' do
     )
   end
 
-  it 'creates a cloudfront distribution' do
-    expect(cloudfront_distribution(distribution_id)).to(exist)
+  describe 'distribution' do
+    it 'creates a cloudfront distribution' do
+      expect(cloudfront_distribution(distribution_id)).to(exist)
+    end
+
+    it 'outputs the origin bucket names' do
+      expect(output_origin_bucket_names).to(
+        eq([
+             "website-content-#{component}-#{dep_id}",
+             "website-images-#{component}-#{dep_id}"
+           ])
+      )
+    end
   end
 end
